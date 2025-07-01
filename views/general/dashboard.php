@@ -125,7 +125,9 @@ $vista = $_GET['vista'] ?? '';
             <li><a href="dashboard.php?vista=productos"><i class="fas fa-box-open"></i> Productos</a></li>
             <li><a href="dashboard.php?vista=kardex"><i class="fas fa-clipboard-list"></i> KARDEX empleado</a></li>
             <li><a href="dashboard.php?vista=mano_de_obra"><i class="fas fa-hard-hat"></i> Mano de Obra</a></li>
-          
+            <li><a href="dashboard.php?vista=costos_indirectos"><i class="fas fa-chart-line"></i> Costos Indirectos</a>
+            </li>
+
 
             <li><a href="/amt_enci/views/auth/logout.php"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
         </ul>
@@ -143,9 +145,13 @@ $vista = $_GET['vista'] ?? '';
         <?php elseif ($vista === 'kardex'): ?>
             <?php include __DIR__ . '/partes/kardex.php'; ?>
 
-         <?php elseif ($vista === 'mano_de_obra'): ?>
+        <?php elseif ($vista === 'mano_de_obra'): ?>
             <?php include __DIR__ . '/partes/mano_de_obra.php'; ?>
-            
+
+        <?php elseif ($vista === 'costos_indirectos'): ?>
+            <?php include __DIR__ . '/partes/costos_indirectos.php'; ?>
+
+
 
         <?php else: ?>
             <h1>Bienvenido, <?php echo htmlspecialchars($nombre); ?> 👋</h1>
