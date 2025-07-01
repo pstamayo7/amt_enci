@@ -68,7 +68,7 @@ main {
             <ul style="list-style: none; padding: 0;">
                 <li><a href="dashboard.php?vista=mano_de_obra&view=formulario_rol_pago">➕ Generar Rol de Pago</a></li>
                 <li><a href="dashboard.php?vista=mano_de_obra&view=ver_roles_pago">📄 Ver Roles por Empresa</a></li>
-                 <li><a href="dashboard.php?vista=mano_de_obra&view=tarjetas_de_tiempo">📄 Ver Roles por Empresa</a></li>
+                 <li><a href="dashboard.php?vista=mano_de_obra&view=tarjetas_de_tiempo">⏱️ Ver Tarjetas de tiempo</a></li>
             </ul>
         </aside>
 
