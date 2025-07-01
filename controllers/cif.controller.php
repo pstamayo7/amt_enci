@@ -1,4 +1,3 @@
-
 <?php
 // /controllers/cif.controller.php
 
@@ -13,39 +12,38 @@ if (!usuarioAutenticado()) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $tasa_predeterminada = filter_input(INPUT_POST, 'tasa_predeterminada', FILTER_VALIDATE_FLOAT);
-    $unidades = filter_input(INPUT_POST, 'unidades_producidas', FILTER_VALIDATE_INT);
-    $producto_id = filter_input(INPUT_POST, 'producto_id', FILTER_VALIDATE_INT);
-    $empresa_id = filter_input(INPUT_POST, 'empresa_id', FILTER_VALIDATE_INT);
-    $usuario_id = $_SESSION['usuario']['id'];
-
-    if ($tasa_predeterminada && $unidades && $producto_id && $empresa_id) {
-        $cifModel = new CifModel($pdo);
+    // Datos del formulario de la barra lateral
+    $datos = [
+        'fecha' => $_POST['fecha_aplicada'],
+        'unidades' => $_POST['unidades_producidas'],
+        'pro_id' => $_POST['producto_id'],
+        'emp_id' => $_POST['empresa_id'],
+        'usr_id' => $_SESSION['usuario']['id'],
         
-        $cif_total_aplicado = $tasa_predeterminada * $unidades;
+        // Datos ocultos del formulario principal (la "foto")
+        'tasa' => $_POST['tasa_predeterminada'],
+        'base_anual' => $_POST['produccion_anual'],
+        'mat_ind' => $_POST['materiales_indirectos'],
+        'mo_ind' => $_POST['mano_obra_indirecta'],
+        'depreciacion' => $_POST['depreciacion'],
+        'seguros' => $_POST['seguros'],
+        'combustibles' => $_POST['combustibles'],
+        'serv_basicos' => $_POST['servicios_basicos'],
+        'arriendo' => $_POST['arriendo'],
+        'otros_cif' => $_POST['otros_cif']
+    ];
 
-        $datos = [
-            'tasa' => $tasa_predeterminada,
-            'unidades' => $unidades,
-            'total' => $cif_total_aplicado,
-            'pro_id' => $producto_id, // Corregido
-            'emp_id' => $empresa_id,
-            'usuario_id' => $usuario_id
-        ];
+    // Calcular el total aplicado
+    $datos['total_aplicado'] = $datos['tasa'] * $datos['base_anual'];
 
-        if ($cifModel->crear($datos)) {
-            $_SESSION['mensaje'] = "CIF aplicado generado correctamente.";
-            $_SESSION['mensaje_tipo'] = "success";
-        } else {
-            $_SESSION['mensaje'] = "Error al generar el CIF aplicado.";
-            $_SESSION['mensaje_tipo'] = "danger";
-        }
+    $cifModel = new CifModel($pdo);
+    if ($cifModel->crear($datos)) {
+        $_SESSION['mensaje'] = "CIF aplicado y todos sus detalles fueron guardados correctamente.";
     } else {
-        $_SESSION['mensaje'] = "Datos incompletos o inválidos. Asegúrate de calcular primero la tasa predeterminada.";
-        $_SESSION['mensaje_tipo'] = "warning";
+        $_SESSION['mensaje'] = "Error al guardar el CIF aplicado.";
     }
 
-    header("Location: ../views/general/dashboard.php?vista=costos_indirectos&empresa_id=" . $empresa_id);
+    header("Location: ../views/general/dashboard.php?vista=costos_indirectos&empresa_id=" . $datos['emp_id']);
     exit;
 }
 ?>
