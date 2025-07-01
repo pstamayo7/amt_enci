@@ -1,0 +1,23 @@
+# Ignorar dependencias de Composer
+/vendor/
+composer.lock
+
+# Archivos sensibles
+.env
+
+# Configuración del editor
+.vscode/
+.idea/
+
+# Archivos temporales / logs
+*.log
+*.bak
+*.tmp
+*.swp
+
+# Base de datos local o backups
+*.sql
+*.sqlite
+
+# Docker (si usas override local)
+docker-compose.override.yml
